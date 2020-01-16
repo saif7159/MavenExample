@@ -2,15 +2,23 @@ package com.selfmaven.test.jdbcexample;
 
 import java.util.List;
 
+import org.w3c.dom.CDATASection;
+
+import com.mavencar.customer.Customer;
+import com.mavencar.customer.CustomerDao;
+import com.mavencar.customer.CustomerDaoImpl;
+
 public class ServiceImpl implements Service {
 	CarsDao cd = null;
+	CustomerDao custdao = null;
 	{
 		cd = new CarsDaoImpl();
+		custdao = new CustomerDaoImpl();
 	}
 	@Override
-	public Cars createCar(String name, String engine, String trans, String uid) {
+	public Cars createCar(String name, String engine, String trans, String uid, int units, int bookings) {
 		
-		return cd.createCar(name, engine, trans, uid);
+		return cd.createCar(name, engine, trans, uid, units , bookings);
 	}
 
 	@Override
@@ -41,6 +49,18 @@ public class ServiceImpl implements Service {
 	public List<Cars> findByName(String name) {
 		
 		return cd.findByName(name);
+	}
+
+	@Override
+	public Customer createCustomer(String customername, String customerId, String bookingId, String password) {
+		
+		return custdao.createCustomer(customername, customerId, bookingId, password) ;
+	}
+
+	@Override
+	public boolean validatePassword(String id, String password) {
+		return custdao.validatePassword(id, password);
+		
 	}
 
 }

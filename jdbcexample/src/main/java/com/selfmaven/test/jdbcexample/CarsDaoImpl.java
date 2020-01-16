@@ -19,14 +19,17 @@ public class CarsDaoImpl implements CarsDao {
 		
 	}
 	@Override
-	public Cars createCar(String carname, String enginetype, String transmissiontype, String uid) {
-		car = new Cars(carname, enginetype, transmissiontype,uid);
+	public Cars createCar(String carname, String enginetype, String transmissiontype, String uid, int units, int bookings) {
+		car = new Cars(carname, enginetype, transmissiontype,units, bookings, uid);
 		try {
-			ps = con.prepareStatement("Insert into Cars(car_name,engine_type,trans_type,car_uid) values (?,?,?,?);");
+			ps = con.prepareStatement("Insert into Cars(car_name,engine_type,trans_type,car_uid,car_units,car_bookings) values (?,?,?,?,?,?);");
 			ps.setString(1, carname);
 			ps.setString(2, enginetype);
 			ps.setString(3, transmissiontype);
 			ps.setString(4, uid);
+			ps.setInt(5, units);
+			ps.setInt(6, 0);
+			
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -39,10 +42,10 @@ public class CarsDaoImpl implements CarsDao {
 		List<Cars> list = new ArrayList<Cars>();
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select car_name,engine_type,trans_type from Cars;");
+			ResultSet rs = stmt.executeQuery("select car_name,engine_type,trans_type,car_units,car_bookings from Cars;");
 			while(rs.next())
 			{
-				list.add(new Cars(rs.getString(1),rs.getString(2),rs.getString(3),null));
+				list.add(new Cars(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),null));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -56,10 +59,10 @@ public class CarsDaoImpl implements CarsDao {
 		Cars car = null;
 		try {
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("Select car_name,engine_type,trans_type from Cars where car_uid='"+uid+"';");
+		ResultSet rs = stmt.executeQuery("Select car_name,engine_type,trans_type,car_units,car_bookings from Cars where car_uid='"+uid+"';");
 		while(rs.next())
 		{
-			car = new Cars(rs.getString(1),rs.getString(2),rs.getString(3),null);
+			car = new Cars(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),null);
 		}}
 		catch(SQLException sql)
 		{
@@ -116,10 +119,10 @@ public class CarsDaoImpl implements CarsDao {
 		List<Cars> list = new ArrayList<Cars>();
 		try {
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("Select car_name,engine_type,trans_type from Cars where car_name='"+name+"' Order By engine_type DESC;");
+		ResultSet rs = stmt.executeQuery("Select car_name,engine_type,trans_type,car_units,car_bookings from Cars where car_name='"+name+"' Order By engine_type DESC;");
 		while(rs.next())
 		{
-			c = new Cars(rs.getString(1),rs.getString(2),rs.getString(3),null);
+			c = new Cars(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),null);
 			list.add(c);
 		}}
 		catch(SQLException sql)
