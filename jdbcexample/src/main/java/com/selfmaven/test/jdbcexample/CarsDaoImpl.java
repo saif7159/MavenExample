@@ -72,14 +72,60 @@ public class CarsDaoImpl implements CarsDao {
 	public void deleteById(String uid) {
 		try {
 			Statement stmt = con.createStatement();
-			stmt.execute("Delete from Cars where car_uid='"+uid+"';");
-			
+			stmt.executeUpdate("Delete from Cars where car_uid='"+uid+"';");
+			System.out.println("Entry removed");
 		   }
 		catch(SQLException sql)
 		{
 			sql.printStackTrace();
 		}
 	
+	}
+
+	@Override
+	public Cars updateById(String uid, String carname,String engine, String trans,int choice) {
+		Cars c = null;
+		try {
+			
+			Statement stmt = con.createStatement();
+			switch(choice)
+			{
+			case 1: stmt.executeUpdate("Update Cars set car_name = '"+carname+"' where car_uid='"+uid+"';");
+					break;
+			case 2: stmt.executeUpdate("Update Cars set engine_type = '"+engine+"' where car_uid='"+uid+"';");
+					break;
+			case 3: stmt.executeUpdate("Update Cars set trans_type = '"+trans+"' where car_uid='"+uid+"';");
+					break;
+			default: 
+					break;		
+			
+			}
+			c=findById(uid);
+			
+			}
+		catch(SQLException sql)
+		{
+			sql.printStackTrace();
+		}
+		return c;
+	}
+
+	@Override
+	public Cars findByName(String name) {
+		Cars c = null;
+		try {
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("Select car_name,engine_type,trans_type from Cars where car_name='"+name+"';");
+		while(rs.next())
+		{
+			c = new Cars(rs.getString(1),rs.getString(2),rs.getString(3),null);
+		}}
+		catch(SQLException sql)
+		{
+			sql.printStackTrace();
+		}
+		
+		return c;
 	}		
 	}
 

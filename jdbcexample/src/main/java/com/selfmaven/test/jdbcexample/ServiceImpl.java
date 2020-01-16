@@ -31,4 +31,16 @@ public class ServiceImpl implements Service {
 		
 	}
 
+	@Override
+	public Cars updateById(String uid, String carname, String engine, String trans, int choice) {
+		
+		return cd.updateById(uid, carname, engine, trans, choice);
+	}
+
+	@Override
+	public Cars findByName(String name) {
+		
+		return cd.findByName(name);
+	}
+
 }
