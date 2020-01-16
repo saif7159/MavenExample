@@ -89,14 +89,16 @@ public class App
          
          case 6: System.out.println("Enter car name: ");
           		 String findname = br.readLine();
-          		 Cars carname = null;
+          		 List<Cars> carname;
         		 carname = s.findByName(findname);
         		 if(carname==null)
         		 {
         			 System.out.println("Invalid car name");
         		 }else
         		 {
-        		 System.out.println("\n"+carname);
+        			 Iterator it = carname.iterator();
+        			 while(it.hasNext()) {
+        			 System.out.println("\n"+it.next());}
         		 }
         		 break;
           		 

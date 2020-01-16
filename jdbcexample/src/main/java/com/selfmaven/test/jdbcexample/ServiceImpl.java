@@ -38,7 +38,7 @@ public class ServiceImpl implements Service {
 	}
 
 	@Override
-	public Cars findByName(String name) {
+	public List<Cars> findByName(String name) {
 		
 		return cd.findByName(name);
 	}

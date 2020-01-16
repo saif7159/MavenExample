@@ -111,21 +111,23 @@ public class CarsDaoImpl implements CarsDao {
 	}
 
 	@Override
-	public Cars findByName(String name) {
+	public List<Cars> findByName(String name) {
 		Cars c = null;
+		List<Cars> list = new ArrayList<Cars>();
 		try {
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("Select car_name,engine_type,trans_type from Cars where car_name='"+name+"';");
+		ResultSet rs = stmt.executeQuery("Select car_name,engine_type,trans_type from Cars where car_name='"+name+"' Order By engine_type DESC;");
 		while(rs.next())
 		{
 			c = new Cars(rs.getString(1),rs.getString(2),rs.getString(3),null);
+			list.add(c);
 		}}
 		catch(SQLException sql)
 		{
 			sql.printStackTrace();
 		}
 		
-		return c;
+		return list;
 	}		
 	}
 
